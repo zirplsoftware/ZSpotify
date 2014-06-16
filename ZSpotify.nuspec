@@ -25,6 +25,6 @@
   <files>
     <file src="Zirpl.Spotify.MetadataAPI\bin\$configuration$\Zirpl.Spotify.MetadataAPI.dll" target="lib\net35-client\" />
     <file src="Zirpl.Spotify.MetadataAPI.Net4\bin\$configuration$\Zirpl.Spotify.MetadataAPI.dll" target="lib\net40-client\" />
-    <file src="Zirpl.Spotify.MetadataAPI.Silverlight\bin\$configuration$\Zirpl.Spotify.Silverlight.dll" target="lib\sl5\" />
+    <file src="Zirpl.Spotify.MetadataAPI.Silverlight\bin\$configuration$\Zirpl.Spotify.MetadataAPI.Silverlight.dll" target="lib\sl5\" />
   </files>
 </package>
