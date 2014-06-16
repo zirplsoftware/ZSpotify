@@ -18,6 +18,9 @@
             For full release notes see https://github.com/zirplsoftware/spotify/blob/master/releasenotes.markdown
             ]]>
     </releaseNotes>
+    <dependencies>
+      <dependency id="RestSharp" version="104.4.0"/>
+    </dependencies>
   </metadata>
   <files>
     <file src="Zirpl.Spotify.MetadataAPI\bin\$configuration$\Zirpl.Spotify.MetadataAPI.dll" target="lib\net35-client\" />
