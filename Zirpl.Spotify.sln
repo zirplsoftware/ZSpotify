@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataAPI.Tests", "Zirpl.Spotify.MetadataAPI.Tests\Zirpl.Spotify.MetadataAPI.Tests.csproj", "{32858640-10C2-4147-B798-0822C8DF8829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataAPI", "Zirpl.Spotify.MetadataAPI\Zirpl.Spotify.MetadataAPI.csproj", "{0ADFF7F6-2A2E-403E-92AB-7E437A9983BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataAPI.Net4", "Zirpl.Spotify.MetadataAPI.Net4\Zirpl.Spotify.MetadataAPI.Net4.csproj", "{96862992-D2EC-4527-B6D6-485BC3A4FDFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataAPI.Silverlight", "Zirpl.Spotify.MetadataAPI.Silverlight\Zirpl.Spotify.MetadataAPI.Silverlight.csproj", "{8E572422-01B1-47C4-A15C-05FFD2A72E95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32858640-10C2-4147-B798-0822C8DF8829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32858640-10C2-4147-B798-0822C8DF8829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32858640-10C2-4147-B798-0822C8DF8829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32858640-10C2-4147-B798-0822C8DF8829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ADFF7F6-2A2E-403E-92AB-7E437A9983BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADFF7F6-2A2E-403E-92AB-7E437A9983BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADFF7F6-2A2E-403E-92AB-7E437A9983BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADFF7F6-2A2E-403E-92AB-7E437A9983BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96862992-D2EC-4527-B6D6-485BC3A4FDFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96862992-D2EC-4527-B6D6-485BC3A4FDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96862992-D2EC-4527-B6D6-485BC3A4FDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96862992-D2EC-4527-B6D6-485BC3A4FDFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E572422-01B1-47C4-A15C-05FFD2A72E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E572422-01B1-47C4-A15C-05FFD2A72E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E572422-01B1-47C4-A15C-05FFD2A72E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E572422-01B1-47C4-A15C-05FFD2A72E95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal
