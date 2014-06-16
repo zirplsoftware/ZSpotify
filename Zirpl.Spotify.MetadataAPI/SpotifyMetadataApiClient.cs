@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+#if SILVERLIGHT
+using System.Threading.Tasks;
+#endif
 using RestSharp;
 
 namespace Zirpl.Spotify.MetadataAPI
@@ -35,6 +38,105 @@ namespace Zirpl.Spotify.MetadataAPI
 
         public static bool EnsureRateLimitIsNotExceeded { get; set; }
 
+        public virtual AlbumSearchResult SearchAlbums(String queryString, int pageNumber = 1)
+        {
+            return this.ExecuteSearch<AlbumSearchResult>("album", queryString, pageNumber);
+        }
+
+        public virtual ArtistSearchResult SearchArtists(String queryString, int pageNumber = 1)
+        {
+            return this.ExecuteSearch<ArtistSearchResult>("artist", queryString, pageNumber);
+        }
+
+        public virtual TrackSearchResult SearchTracks(String queryString, int pageNumber = 1)
+        {
+            return this.ExecuteSearch<TrackSearchResult>("track", queryString, pageNumber);
+        }
+
+        public virtual Artist LookupArtist(String uri, ArtistLookupExtra? extra = null)
+        {
+            String extraText = null;
+            if (extra != null)
+            {
+                switch (extra.Value)
+                {
+                    case ArtistLookupExtra.Album:
+                        extraText = "album";
+                        break;
+                    case ArtistLookupExtra.AlbumDetail:
+                        extraText = "albumdetails";
+                        break;
+                }
+            }
+            return this.ExecuteLookup<ArtistLookupResult>("artist", uri, extraText).Artist;
+        }
+
+        public virtual Album LookupAlbum(String uri, AlbumLookupExtra? extra = null)
+        {
+            String extraText = null;
+            if (extra != null)
+            {
+                switch (extra.Value)
+                {
+                    case AlbumLookupExtra.Track:
+                        extraText = "track";
+                        break;
+                    case AlbumLookupExtra.TrackDetail:
+                        extraText = "trackdetails";
+                        break;
+                }
+            }
+            return this.ExecuteLookup<AlbumLookupResult>("album", uri, extraText).Album;
+        }
+
+        public virtual Track LookupTrack(String uri)
+        {
+            return this.ExecuteLookup<TrackLookupResult>("track", uri, null).Track;
+        }
+
+        #region Helper methods
+
+        protected virtual T ProcessResponseAndGetData<T>(IRestResponse<T> restResponse) where T : class
+        {
+            if (restResponse == null)
+            {
+                throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
+            }
+            if (restResponse.ResponseStatus == ResponseStatus.Completed)
+            {
+                switch (restResponse.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        return restResponse.Data;
+                        break;
+                    case HttpStatusCode.NotModified:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.NotModified);
+                        break;
+                    case HttpStatusCode.NotAcceptable:
+                    case HttpStatusCode.BadRequest:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.BadRequest);
+                        break;
+                    case HttpStatusCode.Forbidden:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyRateLimitingInEffect);
+                        break;
+                    case HttpStatusCode.NotFound:
+                        // probably a malformed URL OR the uri was not found
+                        throw new SpotifyApiException(SpotifyApiExceptionType.NotFound);
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyInternalServerError);
+                        break;
+                    case HttpStatusCode.ServiceUnavailable:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyServiceUnavailable);
+                        break;
+                    default:
+                        throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
+                        break;
+                }
+            }
+            throw new SpotifyApiException(SpotifyApiExceptionType.NetworkError);
+        }
+        
         private static void HandleEnsuringRateLimitIsNotExceeded()
         {
             if (EnsureRateLimitIsNotExceeded)
@@ -73,7 +175,7 @@ namespace Zirpl.Spotify.MetadataAPI
             }
         }
 
-        public virtual AlbumSearchResult SearchAlbums(String queryString, int pageNumber = 1)
+        private T ExecuteSearch<T>(String type, String queryString, int pageNumber = 1) where T : class, new()
         {
             if (String.IsNullOrEmpty(queryString))
             {
@@ -84,7 +186,7 @@ namespace Zirpl.Spotify.MetadataAPI
                 throw new ArgumentOutOfRangeException("pageNumber");
             }
 
-            var restClient = new RestClient("http://ws.spotify.com/search/1/album.json");
+            var restClient = new RestClient(String.Format("http://ws.spotify.com/search/1/{0}.json", type));
             var request = new RestRequest();
             request.AddParameter("q", queryString);
             if (pageNumber != 1)
@@ -93,180 +195,47 @@ namespace Zirpl.Spotify.MetadataAPI
             }
 
             HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<AlbumSearchResult> restReponse = restClient.Execute<AlbumSearchResult>(request);
+#if SILVERLIGHT
+            var task = restClient.ExecuteAwait<T>(request);
+            var restReponse = task.Result;
+#else
+            var restReponse = restClient.Execute<T>(request);
+#endif
             return ProcessResponseAndGetData(restReponse);
         }
 
-        public virtual ArtistSearchResult SearchArtists(String queryString, int pageNumber = 1)
-        {
-            if (String.IsNullOrEmpty(queryString))
-            {
-                throw new ArgumentNullException("queryString");
-            }
-            if (pageNumber <= 0)
-            {
-                throw new ArgumentOutOfRangeException("pageNumber");
-            }
-
-            var restClient = new RestClient("http://ws.spotify.com/search/1/artist.json");
-            var request = new RestRequest();
-            request.AddParameter("q", queryString);
-            if (pageNumber != 1)
-            {
-                request.AddParameter("page", pageNumber);
-            }
-
-            HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<ArtistSearchResult> restReponse = restClient.Execute<ArtistSearchResult>(request);
-            return ProcessResponseAndGetData(restReponse);
-        }
-
-        public virtual TrackSearchResult SearchTracks(String queryString, int pageNumber = 1)
-        {
-            if (String.IsNullOrEmpty(queryString))
-            {
-                throw new ArgumentNullException("queryString");
-            }
-            if (pageNumber <= 0)
-            {
-                throw new ArgumentOutOfRangeException("pageNumber");
-            }
-
-            var restClient = new RestClient("http://ws.spotify.com/search/1/track.json");
-            var request = new RestRequest();
-            request.AddParameter("q", queryString);
-            if (pageNumber != 1)
-            {
-                request.AddParameter("page", pageNumber);
-            }
-
-            HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<TrackSearchResult> restReponse = restClient.Execute<TrackSearchResult>(request);
-            return ProcessResponseAndGetData(restReponse);
-        }
-
-        public virtual Artist LookupArtist(String uri, ArtistLookupExtra? extra = null)
+        private T ExecuteLookup<T>(String type, String uri, String extras) where T: class, new()
         {
             if (String.IsNullOrEmpty(uri))
             {
                 throw new ArgumentNullException("uri");
             }
-            if (!uri.ToLowerInvariant().StartsWith("spotify:artist:")
-                || uri.Length == 15)
+            var uriStart = String.Format("spotify:{0}:", type);
+            if (!uri.ToLowerInvariant().StartsWith(uriStart)
+                || uri.Length == uriStart.Length)
             {
-                throw new ArgumentException("Malformed spotify artist uri", "uri");
+                throw new ArgumentException(String.Format("Malformed spotify {0} uri", type), "uri");
             }
 
             var restClient = new RestClient("http://ws.spotify.com/lookup/1/.json");
             var request = new RestRequest();
             request.AddParameter("uri", uri);
-            if (extra != null)
+            if (!String.IsNullOrEmpty(extras))
             {
-                switch (extra.Value)
-                {
-                    case ArtistLookupExtra.Album:
-                        request.AddParameter("extras", "album");
-                        break;
-                    case ArtistLookupExtra.AlbumDetail:
-                        request.AddParameter("extras", "albumdetails");
-                        break;
-                }
+                request.AddParameter("extras", extras);
             }
 
             HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<ArtistLookupResult> restReponse = restClient.Execute<ArtistLookupResult>(request);
-            return ProcessResponseAndGetData(restReponse).Artist;
+
+#if SILVERLIGHT
+            var task = restClient.ExecuteAwait<T>(request);
+            var restReponse = task.Result;
+#else
+            var restReponse = restClient.Execute<T>(request);
+#endif
+            return ProcessResponseAndGetData(restReponse);
         }
 
-        public virtual Album LookupAlbum(String uri, AlbumLookupExtra? extra = null)
-        {
-            if (String.IsNullOrEmpty(uri))
-            {
-                throw new ArgumentNullException("uri");
-            }
-            if (!uri.ToLowerInvariant().StartsWith("spotify:album:")
-                || uri.Length == 14)
-            {
-                throw new ArgumentException("Malformed spotify album uri", "uri");
-            }
-
-            var restClient = new RestClient("http://ws.spotify.com/lookup/1/.json");
-            var request = new RestRequest();
-            request.AddParameter("uri", uri);
-            if (extra != null)
-            {
-                switch (extra.Value)
-                {
-                    case AlbumLookupExtra.Track:
-                        request.AddParameter("extras", "track");
-                        break;
-                    case AlbumLookupExtra.TrackDetail:
-                        request.AddParameter("extras", "trackdetails");
-                        break;
-                }
-            }
-
-            HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<AlbumLookupResult> restReponse = restClient.Execute<AlbumLookupResult>(request);
-            return ProcessResponseAndGetData(restReponse).Album;
-        }
-
-        public virtual Track LookupTrack(String uri)
-        {
-            if (String.IsNullOrEmpty(uri))
-            {
-                throw new ArgumentNullException("uri");
-            }
-            if (!uri.ToLowerInvariant().StartsWith("spotify:track:")
-                || uri.Length == 14)
-            {
-                throw new ArgumentException("Malformed spotify track uri", "uri");
-            }
-
-            var restClient = new RestClient("http://ws.spotify.com/lookup/1/.json");
-            var request = new RestRequest();
-            request.AddParameter("uri", uri);
-
-            HandleEnsuringRateLimitIsNotExceeded();
-            IRestResponse<TrackLookupResult> restReponse = restClient.Execute<TrackLookupResult>(request);
-            return ProcessResponseAndGetData(restReponse).Track;
-        }
-
-        protected virtual T ProcessResponseAndGetData<T>(IRestResponse<T> restResponse) where T : class
-        {
-            if (restResponse.ResponseStatus == ResponseStatus.Completed)
-            {
-                switch (restResponse.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        return restResponse.Data;
-                        break;
-                    case HttpStatusCode.NotModified:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.NotModified);
-                        break;
-                    case HttpStatusCode.NotAcceptable:
-                    case HttpStatusCode.BadRequest:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.BadRequest);
-                        break;
-                    case HttpStatusCode.Forbidden:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyRateLimitingInEffect);
-                        break;
-                    case HttpStatusCode.NotFound:
-                        // probably a malformed URL OR the uri was not found
-                        throw new SpotifyApiException(SpotifyApiExceptionType.NotFound);
-                        break;
-                    case HttpStatusCode.InternalServerError:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyInternalServerError);
-                        break;
-                    case HttpStatusCode.ServiceUnavailable:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyServiceUnavailable);
-                        break;
-                    default:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
-                        break;
-                }
-            }
-            throw new SpotifyApiException(SpotifyApiExceptionType.NetworkError);
-        }
+        #endregion
     }
 }
