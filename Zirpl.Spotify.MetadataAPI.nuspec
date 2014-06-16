@@ -1,18 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
+<?xml version="1.0"?>
+<package >
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
+    <title>Spotify Metadata API Client</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <description>$description$</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides Lookup and Search functionality for Spotify's Metadata API. Updated regularly</description>
     <language>en-US</language>
-    <projectUrl>http://restsharp.org</projectUrl>
-    <licenseUrl>https://github.com/restsharp/RestSharp/blob/master/LICENSE.txt</licenseUrl>
-    <iconUrl>http://dl.dropbox.com/u/1827/restsharp100.png</iconUrl>
+    <copyright>Copyright 2014</copyright>
     <tags>REST HTTP API JSON XML</tags>
-    <releaseNotes><![CDATA[
-            For full release notes see https://github.com/restsharp/RestSharp/blob/master/releasenotes.markdown
-            ]]></releaseNotes>
+    <projectUrl>https://github.com/zirplsoftware/spotify</projectUrl>
+    <licenseUrl>https://github.com/zirplsoftware/spotify/blob/master/LICENSE</licenseUrl>
+    <releaseNotes>
+      <![CDATA[
+            For full release notes see https://github.com/zirplsoftware/spotify/blob/master/releasenotes.markdown
+            ]]>
+    </releaseNotes>
   </metadata>
+  <files>
+    <file src="Zirpl.Spotify.MetadataAPI\bin\$configuration$\Zirpl.Spotify.MetadataAPI.dll" target="lib\net35-client\" />
+    <file src="Zirpl.Spotify.MetadataAPI.Net4\bin\$configuration$\Zirpl.Spotify.MetadataAPI.dll" target="lib\net40-client\" />
+    <file src="Zirpl.Spotify.MetadataAPI.Silverlight\bin\$configuration$\Zirpl.Spotify.Silverlight.dll" target="lib\sl5\" />
+  </files>
 </package>
