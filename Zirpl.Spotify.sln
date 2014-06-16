@@ -25,9 +25,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{BD0C15
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{EE6035F9-6771-4770-A440-88DFCFD20932}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{7DA78F06-C7CD-42B5-A969-D58B5AB1497F}"
 	ProjectSection(SolutionItems) = preProject
-		Zirpl.Spotify.MetadataAPI.nuspec = Zirpl.Spotify.MetadataAPI.nuspec
+		build.bat = build.bat
+		LICENSE = LICENSE
+		package.cmd = package.cmd
+		README.md = README.md
+		releasenotes.markdown = releasenotes.markdown
+		ZSpotify.nuspec = ZSpotify.nuspec
 	EndProjectSection
 EndProject
 Global
