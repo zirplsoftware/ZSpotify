@@ -237,7 +237,7 @@ namespace Zirpl.Spotify.MetadataApi
                 return this.ProcessResponseAndGetData<T, string>(task.Result);
 #else
                 var response = restClient.Execute<T>(request);
-                return response.Data;
+                return this.ProcessResponseAndGetData<T>(response);
 #endif
             }
             catch (SpotifyApiException e)
@@ -290,7 +290,7 @@ namespace Zirpl.Spotify.MetadataApi
                 return this.ProcessResponseAndGetData<T, String>(task.Result);
 #else
                 var response = restClient.Execute<T>(request);
-                return response.Data;
+                return this.ProcessResponseAndGetData<T>(response);
 #endif
             }
             catch (SpotifyApiException e)
