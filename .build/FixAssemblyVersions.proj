@@ -16,9 +16,9 @@
   </ItemGroup>
   
   <Target Name="Version">
-    <Error Condition="'$(Version)' == ''" Text="Must supply ASSEMBLYVERSION" />
-    <Error Condition="'$(FileVersion)' == ''" Text="Must supply ASSEMBLYFILEVERSION" />
-    <Error Condition="'$(InformationalVersion)' == ''" Text="Must supply ASSEMBLYINFORMATIONALVERSION" />
+    <Error Condition="'$(Configuration)' == 'Release' And '$(Version)' == ''" Text="Must supply ASSEMBLYVERSION" />
+    <Error Condition="'$(Configuration)' == 'Release' And '$(FileVersion)' == ''" Text="Must supply ASSEMBLYFILEVERSION" />
+    <Error Condition="'$(Configuration)' == 'Release' And '$(InformationalVersion)' == ''" Text="Must supply ASSEMBLYINFORMATIONALVERSION" />
 
     <CallTarget Targets="VersionRegularAssemblies" />
     <CallTarget Targets="VersionPortableAssemblies" />
