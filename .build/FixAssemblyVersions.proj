@@ -1,7 +1,7 @@
-Versio<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTarget="Version" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask AssemblyFile="..\.build\MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.AssemblyInfo" />
-
+  
   <PropertyGroup>
     <Version>$(ASSEMBLYVERSION)</Version>
     <FileVersion>$(ASSEMBLYFILEVERSION)</FileVersion>
@@ -14,15 +14,15 @@ Versio<?xml version="1.0" encoding="utf-8"?>
     <CommonFiles Include="..\**\AssemblyInfo_common.cs" Exclude="..\**\.svn\**;..\Build\AssemblyInfo_common.cs" />
     <CommonPortableFiles Include="..\**\AssemblyInfo_common_portable.cs" Exclude="..\**\.svn\**;..\Build\AssemblyInfo_common_portable.cs" />
   </ItemGroup>
-
+  
   <Target Name="Version">
-    <Error Condition="'$(Configuration)' == 'Release' And '$(Version)' == ''" Text="Must supply ASSEMBLYVERSION" />
-    <Error Condition="'$(Configuration)' == 'Release' And '$(FileVersion)' == ''" Text="Must supply ASSEMBLYFILEVERSION" />
-    <Error Condition="'$(Configuration)' == 'Release' And '$(InformationalVersion)' == ''" Text="Must supply ASSEMBLYINFORMATIONALVERSION" />
+    <Error Condition="'$(Version)' == ''" Text="Must supply ASSEMBLYVERSION" />
+    <Error Condition="'$(FileVersion)' == ''" Text="Must supply ASSEMBLYFILEVERSION" />
+    <Error Condition="'$(InformationalVersion)' == ''" Text="Must supply ASSEMBLYINFORMATIONALVERSION" />
 
     <CallTarget Targets="VersionRegularAssemblies" />
     <CallTarget Targets="VersionPortableAssemblies" />
-
+    
   </Target>
 
   <Target Name="VersionRegularAssemblies">
@@ -36,7 +36,7 @@ Versio<?xml version="1.0" encoding="utf-8"?>
                   ComVisible="false"
                   CLSCompliant="true" />
   </Target>
-
+ 
   <Target Name="VersionPortableAssemblies">
     <AssemblyInfo CodeLanguage="CS"
                   OutputFile="%(CommonPortableFiles.FullPath)"
