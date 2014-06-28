@@ -5,6 +5,6 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Zirpl.Spotify.MetadataAPI.Silverlight")]
+[assembly: AssemblyTitle("Zirpl.Spotify.MetadataApi.Wpa")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("Zirpl.Spotify.MetadataAPI.Silverlight")]
+[assembly: AssemblyProduct("Zirpl.Spotify.MetadataApi.Wpa")]

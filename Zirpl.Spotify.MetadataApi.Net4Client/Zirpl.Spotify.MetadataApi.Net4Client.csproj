@@ -7,8 +7,8 @@
     <ProjectGuid>{96862992-D2EC-4527-B6D6-485BC3A4FDFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Zirpl.Spotify.MetadataAPI</RootNamespace>
-    <AssemblyName>Zirpl.Spotify.MetadataAPI</AssemblyName>
+    <RootNamespace>Zirpl.Spotify.MetadataApi</RootNamespace>
+    <AssemblyName>Zirpl.Spotify.MetadataApi</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NET40CLIENT;REF_RESTSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -28,12 +28,13 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET40CLIENT;REF_RESTSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RestSharp">
+    <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4-client\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -78,6 +79,12 @@
     <Compile Include="..\Zirpl.Spotify.MetadataAPI\LookupResultInfo.cs">
       <Link>LookupResultInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Zirpl.Spotify.MetadataAPI\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Zirpl.Spotify.MetadataAPI\Properties\AssemblyInfo_common.cs">
+      <Link>Properties\AssemblyInfo_common.cs</Link>
+    </Compile>
     <Compile Include="..\Zirpl.Spotify.MetadataAPI\SearchResultInfo.cs">
       <Link>SearchResultInfo.cs</Link>
     </Compile>
@@ -96,8 +103,6 @@
     <Compile Include="..\Zirpl.Spotify.MetadataAPI\TrackSearchResult.cs">
       <Link>TrackSearchResult.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\AssemblyInfo_common.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

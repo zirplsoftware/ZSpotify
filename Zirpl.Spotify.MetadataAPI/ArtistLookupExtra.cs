@@ -1,4 +1,4 @@
-﻿namespace Zirpl.Spotify.MetadataAPI
+﻿namespace Zirpl.Spotify.MetadataApi
 {
     public enum ArtistLookupExtra
     {

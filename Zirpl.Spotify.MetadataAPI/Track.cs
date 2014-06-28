@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zirpl.Spotify.MetadataAPI
+namespace Zirpl.Spotify.MetadataApi
 {
     public class Track
     {

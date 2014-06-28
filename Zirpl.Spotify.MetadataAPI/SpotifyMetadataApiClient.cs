@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-#if SILVERLIGHT
-using System.Threading.Tasks;
-#endif
+#if !REF_RESTSHARP
+using PortableRest;
+#else
 using RestSharp;
+#endif
 
-namespace Zirpl.Spotify.MetadataAPI
+namespace Zirpl.Spotify.MetadataApi
 {
     public class SpotifyMetadataApiClient
     {
         private const int rateLimitMillseconds = 1500;
-            // it's actually 1s but we add 500ms buffer since the Spotify server may get it later
+        // it's actually 1s but we add 500ms buffer since the Spotify server may get it later
 
         private const int rateLimitCallQuantity = 10;
         private static readonly Queue<DateTime> _requestTimes;
@@ -96,47 +97,55 @@ namespace Zirpl.Spotify.MetadataAPI
 
         #region Helper methods
 
+#if !REF_RESTSHARP
+        protected virtual T ProcessResponseAndGetData<T>(RestResponse<T> restResponse) where T : class
+#else
         protected virtual T ProcessResponseAndGetData<T>(IRestResponse<T> restResponse) where T : class
+#endif
         {
             if (restResponse == null)
             {
                 throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
             }
-            if (restResponse.ResponseStatus == ResponseStatus.Completed)
+#if !REF_RESTSHARP
+            switch (restResponse.HttpResponseMessage.StatusCode)
+#else
+            switch (restResponse.StatusCode)
+#endif
             {
-                switch (restResponse.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        return restResponse.Data;
-                        break;
-                    case HttpStatusCode.NotModified:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.NotModified);
-                        break;
-                    case HttpStatusCode.NotAcceptable:
-                    case HttpStatusCode.BadRequest:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.BadRequest);
-                        break;
-                    case HttpStatusCode.Forbidden:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyRateLimitingInEffect);
-                        break;
-                    case HttpStatusCode.NotFound:
-                        // probably a malformed URL OR the uri was not found
-                        throw new SpotifyApiException(SpotifyApiExceptionType.NotFound);
-                        break;
-                    case HttpStatusCode.InternalServerError:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyInternalServerError);
-                        break;
-                    case HttpStatusCode.ServiceUnavailable:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyServiceUnavailable);
-                        break;
-                    default:
-                        throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
-                        break;
-                }
+                case HttpStatusCode.OK:
+#if !REF_RESTSHARP
+                    return restResponse.Content;
+#else
+                    return restResponse.Data;
+#endif
+                    break;
+                case HttpStatusCode.NotModified:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.NotModified);
+                    break;
+                case HttpStatusCode.NotAcceptable:
+                case HttpStatusCode.BadRequest:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.BadRequest);
+                    break;
+                case HttpStatusCode.Forbidden:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyRateLimitingInEffect);
+                    break;
+                case HttpStatusCode.NotFound:
+                    // probably a malformed URL OR the uri was not found
+                    throw new SpotifyApiException(SpotifyApiExceptionType.NotFound);
+                    break;
+                case HttpStatusCode.InternalServerError:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyInternalServerError);
+                    break;
+                case HttpStatusCode.ServiceUnavailable:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.SpotifyServiceUnavailable);
+                    break;
+                default:
+                    throw new SpotifyApiException(SpotifyApiExceptionType.Unknown);
+                    break;
             }
-            throw new SpotifyApiException(SpotifyApiExceptionType.NetworkError);
         }
-        
+
         private static void HandleEnsuringRateLimitIsNotExceeded()
         {
             if (EnsureRateLimitIsNotExceeded)
@@ -165,8 +174,12 @@ namespace Zirpl.Spotify.MetadataAPI
                         int waitForMilliseconds = Convert.ToInt32(Math.Ceiling(waitFor.TotalMilliseconds));
                         if (waitForMilliseconds > 0)
                         {
-                            Console.WriteLine("Waiting {0}ms to avoid rate limit", waitForMilliseconds);
-                            Thread.Sleep(waitForMilliseconds);
+                            //Console.WriteLine("Waiting {0}ms to avoid rate limit", waitForMilliseconds);
+                            using (EventWaitHandle tmpEvent = new ManualResetEvent(false))
+                            {
+                                tmpEvent.WaitOne(TimeSpan.FromMilliseconds(waitForMilliseconds));
+                            }
+                            //Thread.CurrentThread.Sleep(waitForMilliseconds);
                         }
                     }
 
@@ -186,8 +199,8 @@ namespace Zirpl.Spotify.MetadataAPI
                 throw new ArgumentOutOfRangeException("pageNumber");
             }
 
-            var restClient = new RestClient(String.Format("http://ws.spotify.com/search/1/{0}.json", type));
-            var request = new RestRequest();
+            var restClient = new RestClient();
+            var request = new RestRequest(String.Format("http://ws.spotify.com/search/1/{0}.json", type));
             request.AddParameter("q", queryString);
             if (pageNumber != 1)
             {
@@ -195,16 +208,25 @@ namespace Zirpl.Spotify.MetadataAPI
             }
 
             HandleEnsuringRateLimitIsNotExceeded();
-#if SILVERLIGHT
-            var task = restClient.ExecuteAwait<T>(request);
-            var restReponse = task.Result;
+
+            try
+            {
+#if !REF_RESTSHARP
+                var task = restClient.SendAsync<T>(request);
+                task.Wait();
+                return this.ProcessResponseAndGetData(task.Result);
 #else
-            var restReponse = restClient.Execute<T>(request);
+                var response = restClient.Execute<T>(request);
+                return response.Data;
 #endif
-            return ProcessResponseAndGetData(restReponse);
+            }
+            catch (Exception e)
+            {
+                throw new SpotifyApiException(SpotifyApiExceptionType.Unknown, null, e);
+            }
         }
 
-        private T ExecuteLookup<T>(String type, String uri, String extras) where T: class, new()
+        private T ExecuteLookup<T>(String type, String uri, String extras) where T : class, new()
         {
             if (String.IsNullOrEmpty(uri))
             {
@@ -217,8 +239,8 @@ namespace Zirpl.Spotify.MetadataAPI
                 throw new ArgumentException(String.Format("Malformed spotify {0} uri", type), "uri");
             }
 
-            var restClient = new RestClient("http://ws.spotify.com/lookup/1/.json");
-            var request = new RestRequest();
+            var restClient = new RestClient();
+            var request = new RestRequest("http://ws.spotify.com/lookup/1/.json");
             request.AddParameter("uri", uri);
             if (!String.IsNullOrEmpty(extras))
             {
@@ -227,13 +249,21 @@ namespace Zirpl.Spotify.MetadataAPI
 
             HandleEnsuringRateLimitIsNotExceeded();
 
-#if SILVERLIGHT
-            var task = restClient.ExecuteAwait<T>(request);
-            var restReponse = task.Result;
+            try
+            {
+#if !REF_RESTSHARP
+                var task = restClient.SendAsync<T>(request);
+                task.Wait();
+                return this.ProcessResponseAndGetData(task.Result);
 #else
-            var restReponse = restClient.Execute<T>(request);
+                var response = restClient.Execute<T>(request);
+                return response.Data;
 #endif
-            return ProcessResponseAndGetData(restReponse);
+            }
+            catch (Exception e)
+            {
+                throw new SpotifyApiException(SpotifyApiExceptionType.Unknown, null, e);
+            }
         }
 
         #endregion

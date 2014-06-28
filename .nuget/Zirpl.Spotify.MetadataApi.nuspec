@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Zirpl.Spotify.MetadataApi</id>
+    <version>$version$</version>
+    <title>ZSpotify- Spotify Metadata API Client</title>
+    <authors>Zirpl Software</authors>
+    <owners>Zirpl Software</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides Lookup and Search functionality for Spotify's Metadata API. Updated regularly</description>
+    <language>en-US</language>
+    <copyright>Copyright 2014</copyright>
+    <tags>Spotify</tags>
+    <projectUrl>https://github.com/nlafratta/zspotify</projectUrl>
+    <licenseUrl>https://github.com/nlafratta/zspotify/blob/master/LICENSE</licenseUrl>
+    <releaseNotes>
+      <![CDATA[
+            For full release notes see https://github.com/nlafratta/zspotify/blob/master/releasenotes.md
+            ]]>
+    </releaseNotes>
+    <dependencies>
+      <group targetFramework="net40-client">
+        <dependency id="RestSharp" version="104.4.0"/>
+      </group>
+      <group targetFramework="wpa81">
+        <dependency id="Microsoft.Bcl" version="1.1.8" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+        <dependency id="Microsoft.Bcl.Build" version="1.0.14" />
+        <dependency id="Microsoft.Net.Http" version="2.2.20" />
+        <dependency id="Newtonsoft.Json" version="6.0.2" />
+        <dependency id="PortableRest" version="2.5.4" />
+      </group>
+      <group targetFramework="portable-net45+sl5+wp8+win8+wpa81">
+        <dependency id="Microsoft.Bcl" version="1.1.8" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+        <dependency id="Microsoft.Bcl.Build" version="1.0.14" />
+        <dependency id="Microsoft.Net.Http" version="2.2.20" />
+        <dependency id="Newtonsoft.Json" version="6.0.2" />
+        <dependency id="PortableRest" version="2.5.4" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Zirpl.Spotify.MetadataApi.Portable\bin\$configuration$\Zirpl.Spotify.MetadataApi.Portable.dll" target="lib\portable-net45+sl5+wp8+win8+wpa81\" />
+    <file src="Zirpl.Spotify.MetadataApi.Net4Client\bin\$configuration$\Zirpl.Spotify.MetadataApi.dll" target="lib\net40-client\" />
+    <file src="Zirpl.Spotify.MetadataApi.Wpa81\bin\$configuration$\Zirpl.Spotify.MetadataApi.Wpa.dll" target="lib\wpa81\" />
+  </files>
+</package>

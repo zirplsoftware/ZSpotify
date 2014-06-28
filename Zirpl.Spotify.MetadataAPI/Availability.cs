@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zirpl.Spotify.MetadataAPI
+namespace Zirpl.Spotify.MetadataApi
 {
     public class Availability
     {
