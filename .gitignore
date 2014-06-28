@@ -3,6 +3,8 @@
 /Zirpl.Spotify.MetadataApi/bin
 /Zirpl.Spotify.MetadataApi.Net4Client/obj
 /Zirpl.Spotify.MetadataApi.Net4Client/bin
+/Zirpl.Spotify.MetadataApi.Net40Client.Tests/obj
+/Zirpl.Spotify.MetadataApi.Net40Client.Tests/bin
 /Zirpl.Spotify.MetadataApi.Wpa81/obj
 /Zirpl.Spotify.MetadataApi.Wpa81/bin
 /Zirpl.Spotify.MetadataApi.Portable/obj
@@ -10,3 +12,4 @@
 /Zirpl.Spotify.MetadataApi.Tests/obj
 /Zirpl.Spotify.MetadataApi.Tests/bin
 /Zirpl.Spotify.v12.suo
+/Zirpl.Spotify.sln.DotSettings.user

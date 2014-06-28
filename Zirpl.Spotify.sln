@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataApi.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataApi.Portable", "Zirpl.Spotify.MetadataApi.Portable\Zirpl.Spotify.MetadataApi.Portable.csproj", "{285B31E0-8104-41AC-8D46-F9C141FB64C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataApi.Net40Client.Tests", "Zirpl.Spotify.MetadataApi.Net40Client.Tests\Zirpl.Spotify.MetadataApi.Net40Client.Tests.csproj", "{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,14 @@ Global
 		{285B31E0-8104-41AC-8D46-F9C141FB64C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{285B31E0-8104-41AC-8D46-F9C141FB64C5}.Release|ARM.ActiveCfg = Release|Any CPU
 		{285B31E0-8104-41AC-8D46-F9C141FB64C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +112,7 @@ Global
 		{96862992-D2EC-4527-B6D6-485BC3A4FDFF} = {9DA271DE-388D-4E98-B2DC-8A8680D52880}
 		{9F0CF738-52C0-44E3-9607-8E04B8369C46} = {9DA271DE-388D-4E98-B2DC-8A8680D52880}
 		{285B31E0-8104-41AC-8D46-F9C141FB64C5} = {9DA271DE-388D-4E98-B2DC-8A8680D52880}
+		{3244A92D-0BA9-4ACD-A441-BB8B0EDC32A0} = {060A8FF9-4247-4E2E-8C61-C822B7764731}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

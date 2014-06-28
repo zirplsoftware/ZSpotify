@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 #if !REF_RESTSHARP
+using Newtonsoft.Json;
 using PortableRest;
 #else
 using RestSharp;
@@ -98,7 +99,9 @@ namespace Zirpl.Spotify.MetadataApi
         #region Helper methods
 
 #if !REF_RESTSHARP
-        protected virtual T ProcessResponseAndGetData<T>(RestResponse<T> restResponse) where T : class
+        protected virtual T ProcessResponseAndGetData<T, TContent>(RestResponse<TContent> restResponse) 
+            where T : class 
+            where TContent: class
 #else
         protected virtual T ProcessResponseAndGetData<T>(IRestResponse<T> restResponse) where T : class
 #endif
@@ -115,7 +118,15 @@ namespace Zirpl.Spotify.MetadataApi
             {
                 case HttpStatusCode.OK:
 #if !REF_RESTSHARP
-                    return restResponse.Content;
+                    if (typeof (TContent).Equals(typeof (T)))
+                    {
+                        return (T)(Object)restResponse.Content;
+                    }
+                    else
+                    {
+                        // is a string
+                        return (T)JsonConvert.DeserializeObject((String)(Object)restResponse.Content, typeof (T));
+                    }
 #else
                     return restResponse.Data;
 #endif
@@ -201,24 +212,37 @@ namespace Zirpl.Spotify.MetadataApi
 
             var restClient = new RestClient();
             var request = new RestRequest(String.Format("http://ws.spotify.com/search/1/{0}.json", type));
+
+#if !REF_RESTSHARP
+            request.AddQueryString("q", queryString);
+            if (pageNumber != 1)
+            {
+                request.AddQueryString("page", pageNumber);
+            }
+#else
             request.AddParameter("q", queryString);
             if (pageNumber != 1)
             {
                 request.AddParameter("page", pageNumber);
             }
+#endif
 
             HandleEnsuringRateLimitIsNotExceeded();
 
             try
             {
 #if !REF_RESTSHARP
-                var task = restClient.SendAsync<T>(request);
+                var task = restClient.SendAsync<string>(request);
                 task.Wait();
-                return this.ProcessResponseAndGetData(task.Result);
+                return this.ProcessResponseAndGetData<T, string>(task.Result);
 #else
                 var response = restClient.Execute<T>(request);
                 return response.Data;
 #endif
+            }
+            catch (SpotifyApiException e)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -241,24 +265,37 @@ namespace Zirpl.Spotify.MetadataApi
 
             var restClient = new RestClient();
             var request = new RestRequest("http://ws.spotify.com/lookup/1/.json");
+#if !REF_RESTSHARP
+            request.AddQueryString("uri", uri);
+            if (!String.IsNullOrEmpty(extras))
+            {
+                request.AddQueryString("extras", extras);
+            }
+#else
             request.AddParameter("uri", uri);
             if (!String.IsNullOrEmpty(extras))
             {
                 request.AddParameter("extras", extras);
             }
+#endif
+
 
             HandleEnsuringRateLimitIsNotExceeded();
 
             try
             {
 #if !REF_RESTSHARP
-                var task = restClient.SendAsync<T>(request);
+                var task = restClient.SendAsync<string>(request);
                 task.Wait();
-                return this.ProcessResponseAndGetData(task.Result);
+                return this.ProcessResponseAndGetData<T, String>(task.Result);
 #else
                 var response = restClient.Execute<T>(request);
                 return response.Data;
 #endif
+            }
+            catch (SpotifyApiException e)
+            {
+                throw;
             }
             catch (Exception e)
             {
