@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataApi.Tests", "Zirpl.Spotify.MetadataApi.Tests\Zirpl.Spotify.MetadataApi.Tests.csproj", "{32858640-10C2-4147-B798-0822C8DF8829}"
 EndProject
@@ -17,13 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E3D912
 		.nuget\Zirpl.Spotify.MetadataApi.nuspec = .nuget\Zirpl.Spotify.MetadataApi.nuspec
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{BD0C1567-0494-41BE-9CB8-394795E07DEF}"
-	ProjectSection(SolutionItems) = preProject
-		.build\FixAssemblyVersions.proj = .build\FixAssemblyVersions.proj
-		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
-		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{7DA78F06-C7CD-42B5-A969-D58B5AB1497F}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
@@ -33,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{7D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{060A8FF9-4247-4E2E-8C61-C822B7764731}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{9DA271DE-388D-4E98-B2DC-8A8680D52880}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other Frameworks", "Other Frameworks", "{9DA271DE-388D-4E98-B2DC-8A8680D52880}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zirpl.Spotify.MetadataApi.Wpa81", "Zirpl.Spotify.MetadataApi.Wpa81\Zirpl.Spotify.MetadataApi.Wpa81.csproj", "{9F0CF738-52C0-44E3-9607-8E04B8369C46}"
 EndProject

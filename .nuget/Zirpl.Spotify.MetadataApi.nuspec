@@ -3,7 +3,7 @@
   <metadata>
     <id>Zirpl.Spotify.MetadataApi</id>
     <version>$version$</version>
-    <title>ZSpotify- Spotify Metadata API Client</title>
+    <title>Zirpl's Spotify- Spotify Metadata API Client</title>
     <authors>Zirpl Software</authors>
     <owners>Zirpl Software</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
