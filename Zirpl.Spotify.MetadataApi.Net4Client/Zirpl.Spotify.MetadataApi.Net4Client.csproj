@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE;NET40CLIENT;REF_RESTSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Zirpl.Spotify.MetadataApi.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE;NET40CLIENT;REF_RESTSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Zirpl.Spotify.MetadataApi.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -81,9 +83,6 @@
     </Compile>
     <Compile Include="..\Zirpl.Spotify.MetadataAPI\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Zirpl.Spotify.MetadataAPI\Properties\AssemblyInfo_common.cs">
-      <Link>Properties\AssemblyInfo_common.cs</Link>
     </Compile>
     <Compile Include="..\Zirpl.Spotify.MetadataAPI\SearchResultInfo.cs">
       <Link>SearchResultInfo.cs</Link>

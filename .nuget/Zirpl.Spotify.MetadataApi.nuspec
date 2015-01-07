@@ -11,11 +11,11 @@
     <language>en-US</language>
     <copyright>Copyright 2014</copyright>
     <tags>Spotify</tags>
-    <projectUrl>https://github.com/nlafratta/zspotify</projectUrl>
-    <licenseUrl>https://github.com/nlafratta/zspotify/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/zirplsoftware/zspotify</projectUrl>
+    <licenseUrl>https://github.com/zirplsoftware/zspotify/blob/master/LICENSE</licenseUrl>
     <releaseNotes>
       <![CDATA[
-            For full release notes see https://github.com/nlafratta/zspotify/blob/master/releasenotes.md
+            For full release notes see https://github.com/zirplsoftware/zspotify/blob/master/releasenotes.md
             ]]>
     </releaseNotes>
     <dependencies>
@@ -42,7 +42,10 @@
   </metadata>
   <files>
     <file src="..\Zirpl.Spotify.MetadataApi.Portable\bin\$configuration$\Zirpl.Spotify.MetadataApi.Portable.dll" target="lib\portable-net45+sl5+wp8+win8+wpa81\" />
+    <file src="..\Zirpl.Spotify.MetadataApi.Portable\bin\$configuration$\Zirpl.Spotify.MetadataApi.Portable.XML" target="lib\portable-net45+sl5+wp8+win8+wpa81\" />
     <file src="..\Zirpl.Spotify.MetadataApi.Net4Client\bin\$configuration$\Zirpl.Spotify.MetadataApi.dll" target="lib\net40-client\" />
+    <file src="..\Zirpl.Spotify.MetadataApi.Net4Client\bin\$configuration$\Zirpl.Spotify.MetadataApi.XML" target="lib\net40-client\" />
     <file src="..\Zirpl.Spotify.MetadataApi.Wpa81\bin\$configuration$\Zirpl.Spotify.MetadataApi.Wpa.dll" target="lib\wpa81\" />
+    <file src="..\Zirpl.Spotify.MetadataApi.Wpa81\bin\$configuration$\Zirpl.Spotify.MetadataApi.Wpa.XML" target="lib\wpa81\" />
   </files>
 </package>
